@@ -1,0 +1,41 @@
+# Byte-compiled
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.env
+.venv
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Browser session files
+.browser_sessions/
+
+# Screenshots / output
+sessions/
+output/
+
+# Database
+*.db
+
+# Docker
+.docker/
+
+# Distribution
+dist/
+build/
+*.egg-info/
+
+# Logs
+*.log

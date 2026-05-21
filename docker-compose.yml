@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  browserbot:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY:-}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-}
+    volumes:
+      - ./sessions:/app/sessions
+      - browserbot_data:/app/.browser_sessions
+    command: python api.py --host 0.0.0.0 --port 8000
+    restart: unless-stopped
+
+volumes:
+  browserbot_data:
