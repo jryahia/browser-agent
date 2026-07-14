@@ -1,8 +1,11 @@
 """Session persistence — save/load browser state (cookies, localStorage)."""
 
 import json
+import logging
 from pathlib import Path
 from typing import Optional
+
+logger = logging.getLogger(__name__)
 
 
 class SessionManager:
@@ -25,7 +28,7 @@ class SessionManager:
             path.write_text(json.dumps(state, indent=2))
             self.current_session_id = session_id
         except Exception as e:
-            print(f"Warning: Failed to save session state: {e}")
+            logger.warning("Failed to save session state: %s", e)
 
     async def load_state(self, context, session_id: str) -> bool:
         """Load cookies into browser context. Returns True if state was found."""
@@ -40,7 +43,7 @@ class SessionManager:
             self.current_session_id = session_id
             return True
         except Exception as e:
-            print(f"Warning: Failed to load session state: {e}")
+            logger.warning("Failed to load session state: %s", e)
             return False
 
     def list_sessions(self) -> list[str]:

@@ -3,11 +3,14 @@
 
 import argparse
 import asyncio
+import logging
 import sys
 from pathlib import Path
 
 from src.engine.agent import BrowserAgent
 from src.llm.client import LLMClient
+
+logger = logging.getLogger(__name__)
 
 
 def main():
@@ -52,7 +55,7 @@ Examples:
             with open(args.tasks) as f:
                 tasks = json.load(f)
         except (json.JSONDecodeError, FileNotFoundError) as e:
-            print(f"Error loading tasks file: {e}")
+            logger.error("Error loading tasks file: %s", e)
             sys.exit(1)
 
         if isinstance(tasks, list):
@@ -87,13 +90,13 @@ async def run_single_task(goal: str, args, headless: bool, screenshot_dir: str):
     )
     result = await agent.run(goal)
 
-    print(f"\n{'='*60}")
+    logger.info("─" * 60)
     if result["success"]:
-        print(f"✅ Success: {result['result']}")
+        logger.info("✅ Success: %s", result['result'])
     else:
-        print(f"❌ Failed: {result.get('error', 'Unknown error')}")
-    print(f"📊 Steps: {result['steps']}")
-    print(f"{'='*60}")
+        logger.info("❌ Failed: %s", result.get('error', 'Unknown error'))
+    logger.info("📊 Steps: %s", result['steps'])
+    logger.info("─" * 60)
 
     return result
 

@@ -1,9 +1,12 @@
 """BrowserAgent — the main observe-think-act loop."""
 
 import asyncio
+import logging
 import time
 import traceback
 from typing import Optional
+
+logger = logging.getLogger(__name__)
 
 from .actions import ActionExecutor
 from .observer import PageObserver
@@ -54,9 +57,9 @@ class BrowserAgent:
         Returns dict with: success, result, steps, error (optional).
         """
         if self.verbose:
-            print(f"\n{'='*60}")
-            print(f"🤖 BrowserBot: {goal}")
-            print(f"{'='*60}")
+            logger.info("─" * 60)
+            logger.info("🤖 BrowserBot: %s", goal)
+            logger.info("─" * 60)
 
         try:
             await self._setup_browser()
@@ -67,17 +70,17 @@ class BrowserAgent:
             for step in range(1, self.max_steps + 1):
                 steps_taken = step
                 if self.verbose:
-                    print(f"\n--- Step {step}/{self.max_steps} ---")
+                    logger.info("--- Step %d/%d ---", step, self.max_steps)
 
                 # OBSERVE
                 page_state = await self.observer.observe()
                 page_state["goal"] = goal
 
                 if self.verbose:
-                    print(f"📍 URL: {page_state['url']}")
-                    print(f"📄 Title: {page_state['title']}")
+                    logger.info("📍 URL: %s", page_state['url'])
+                    logger.info("📄 Title: %s", page_state['title'])
                     elements = page_state.get("interactive_elements", [])
-                    print(f"🔘 Elements: {len(elements)} found")
+                    logger.info("🔘 Elements: %d found", len(elements))
 
                 # Check stuck detection
                 state_sig = f"{page_state['url']}|{page_state['visible_text'][:200]}"
@@ -89,7 +92,7 @@ class BrowserAgent:
 
                 if self._stuck_counter >= 3:
                     if self.verbose:
-                        print("⚠️  Stuck detected — trying navigation to original goal")
+                        logger.warning("⚠️  Stuck detected — trying navigation to original goal")
                     page_state["stuck"] = True
 
                 # THINK — get LLM decision
@@ -104,9 +107,9 @@ class BrowserAgent:
                         break
 
                 if self.verbose:
-                    print(f"🧠 Action: {action['action']}")
-                    print(f"💬 Reasoning: {action.get('reasoning', '')}")
-                    print(f"⚙️  Params: {action.get('params', {})}")
+                    logger.info("🧠 Action: %s", action['action'])
+                    logger.info("💬 Reasoning: %s", action.get('reasoning', ''))
+                    logger.info("⚙️  Params: %s", action.get('params', {}))
 
                 # ACT
                 exec_result = await self.executor.execute(
@@ -117,7 +120,7 @@ class BrowserAgent:
 
                 if not exec_result["success"]:
                     if self.verbose:
-                        print(f"❌ Action failed: {exec_result['result']}")
+                        logger.error("❌ Action failed: %s", exec_result['result'])
 
                 # Human-like delay
                 delay = self.stealth.random_delay(*self.human_delay)
@@ -127,7 +130,7 @@ class BrowserAgent:
                 if action["action"] == "done":
                     result = exec_result.get("result", action.get("params", {}).get("result", "Task completed."))
                     if self.verbose:
-                        print(f"\n✅ Task complete: {result}")
+                        logger.info("✅ Task complete: %s", result)
                     break
 
             # Save session
@@ -141,7 +144,7 @@ class BrowserAgent:
             }
 
         except Exception as e:
-            traceback.print_exc()
+            logger.exception("Unhandled exception in agent loop")
             return {
                 "success": False,
                 "result": None,
@@ -215,7 +218,7 @@ Respond with the next action in JSON format."""
 
         if response:
             if self.verbose:
-                print(f"🤖 LLM Response: {response[:200]}...")
+                logger.info("🤖 LLM Response: %s...", response[:200])
             return ActionParser.parse(response)
 
         return None

@@ -2,11 +2,14 @@
 """BrowserBot API Server — FastAPI entry point."""
 
 import argparse
+import logging
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.server.api import router
+
+logger = logging.getLogger(__name__)
 
 app = FastAPI(
     title="BrowserBot API",
@@ -50,8 +53,8 @@ def main():
     parser.add_argument("--reload", action="store_true", help="Auto-reload on code changes")
     args = parser.parse_args()
 
-    print(f"🚀 BrowserBot API Server running on http://{args.host}:{args.port}")
-    print(f"📚 API docs at http://{args.host}:{args.port}/docs")
+    logger.info("🚀 BrowserBot API Server running on http://%s:%s", args.host, args.port)
+    logger.info("📚 API docs at http://%s:%s/docs", args.host, args.port)
 
     uvicorn.run(
         "api:app",
