@@ -1,16 +1,34 @@
-# BrowserBot 🚀
+# BrowserBot
+
+**Autonomous browser agent: an LLM decides each step and Playwright navigates, clicks, types and extracts data to complete multi-step web tasks.**
+
+![Python](https://img.shields.io/badge/Python-161b22?style=for-the-badge&labelColor=161b22&color=161b22) ![Playwright](https://img.shields.io/badge/Playwright-161b22?style=for-the-badge&labelColor=161b22&color=161b22) ![FastAPI](https://img.shields.io/badge/FastAPI-161b22?style=for-the-badge&labelColor=161b22&color=161b22) ![OpenAI](https://img.shields.io/badge/OpenAI-161b22?style=for-the-badge&labelColor=161b22&color=161b22) ![Anthropic](https://img.shields.io/badge/Anthropic-161b22?style=for-the-badge&labelColor=161b22&color=161b22) ![Docker](https://img.shields.io/badge/Docker-161b22?style=for-the-badge&labelColor=161b22&color=161b22)
+
+```mermaid
+flowchart LR
+    S0["Task in plain language"]
+    S1["Page state + screenshot"]
+    S2["LLM chooses next action"]
+    S3["Playwright executes"]
+    S4["Extracted result"]
+    S0 --> S1 --> S2 --> S3 --> S4
+```
+
+## Problem it solves
+
+Many web tasks have no API and break scripted scrapers whenever the page changes. BrowserBot looks at the page, chooses the next action with an LLM and keeps going until the task is done, with screenshots at each step for debugging.
 
 An AI-powered autonomous browser agent that controls a web browser using Playwright, makes decisions using an LLM, and completes multi-step web tasks autonomously.
 
 ## Features
 
-- **🧠 AI Decision-Making**: Uses LLM (OpenAI, DeepSeek, OpenRouter, Anthropic) to choose actions
-- **🌐 Full Browser Control**: Navigate, click, type, scroll, extract data
-- **🕵️ Stealth Mode**: Random user agents, viewport randomization, human-like delays
-- **📸 Screenshot Debugging**: See what the agent sees at each step
-- **🔌 REST API**: FastAPI server for programmatic access
-- **💾 Session Persistence**: Cookies and state survive between tasks
-- **🔄 Task Queue**: Multiple tasks queued and processed sequentially
+- ** AI Decision-Making**: Uses LLM (OpenAI, DeepSeek, OpenRouter, Anthropic) to choose actions
+- ** Full Browser Control**: Navigate, click, type, scroll, extract data
+- ** Stealth Mode**: Random user agents, viewport randomization, human-like delays
+- ** Screenshot Debugging**: See what the agent sees at each step
+- ** REST API**: FastAPI server for programmatic access
+- ** Session Persistence**: Cookies and state survive between tasks
+- ** Task Queue**: Multiple tasks queued and processed sequentially
 
 ## Quick Start
 
