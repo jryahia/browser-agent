@@ -53,8 +53,8 @@ def main():
     parser.add_argument("--reload", action="store_true", help="Auto-reload on code changes")
     args = parser.parse_args()
 
-    logger.info("🚀 BrowserBot API Server running on http://%s:%s", args.host, args.port)
-    logger.info("📚 API docs at http://%s:%s/docs", args.host, args.port)
+    logger.info("BrowserBot API Server running on http://%s:%s", args.host, args.port)
+    logger.info("API docs at http://%s:%s/docs", args.host, args.port)
 
     uvicorn.run(
         "api:app",

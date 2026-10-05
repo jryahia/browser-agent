@@ -22,9 +22,9 @@ async def main():
     result = await agent.run("Go to google.com, search for 'Python programming', and tell me the first result title")
 
     if result["success"]:
-        print(f"\n✅ Result: {result['result']}")
+        print(f"\nResult: {result['result']}")
     else:
-        print(f"\n❌ Error: {result.get('error')}")
+        print(f"\nError: {result.get('error')}")
     print(f"Steps: {result['steps']}")
 
 

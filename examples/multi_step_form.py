@@ -23,9 +23,9 @@ async def main():
     )
 
     if result["success"]:
-        print(f"\n✅ Result: {result['result']}")
+        print(f"\nResult: {result['result']}")
     else:
-        print(f"\n❌ Error: {result.get('error')}")
+        print(f"\nError: {result.get('error')}")
     print(f"Steps: {result['steps']}")
 
 

@@ -58,7 +58,7 @@ class BrowserAgent:
         """
         if self.verbose:
             logger.info("─" * 60)
-            logger.info("🤖 BrowserBot: %s", goal)
+            logger.info("BrowserBot: %s", goal)
             logger.info("─" * 60)
 
         try:
@@ -77,10 +77,10 @@ class BrowserAgent:
                 page_state["goal"] = goal
 
                 if self.verbose:
-                    logger.info("📍 URL: %s", page_state['url'])
-                    logger.info("📄 Title: %s", page_state['title'])
+                    logger.info("URL: %s", page_state['url'])
+                    logger.info("Title: %s", page_state['title'])
                     elements = page_state.get("interactive_elements", [])
-                    logger.info("🔘 Elements: %d found", len(elements))
+                    logger.info("Elements: %d found", len(elements))
 
                 # Check stuck detection
                 state_sig = f"{page_state['url']}|{page_state['visible_text'][:200]}"
@@ -92,7 +92,7 @@ class BrowserAgent:
 
                 if self._stuck_counter >= 3:
                     if self.verbose:
-                        logger.warning("⚠️  Stuck detected — trying navigation to original goal")
+                        logger.warning("Stuck detected — trying navigation to original goal")
                     page_state["stuck"] = True
 
                 # THINK — get LLM decision
@@ -107,9 +107,9 @@ class BrowserAgent:
                         break
 
                 if self.verbose:
-                    logger.info("🧠 Action: %s", action['action'])
-                    logger.info("💬 Reasoning: %s", action.get('reasoning', ''))
-                    logger.info("⚙️  Params: %s", action.get('params', {}))
+                    logger.info("Action: %s", action['action'])
+                    logger.info("Reasoning: %s", action.get('reasoning', ''))
+                    logger.info("Params: %s", action.get('params', {}))
 
                 # ACT
                 exec_result = await self.executor.execute(
@@ -120,7 +120,7 @@ class BrowserAgent:
 
                 if not exec_result["success"]:
                     if self.verbose:
-                        logger.error("❌ Action failed: %s", exec_result['result'])
+                        logger.error("Action failed: %s", exec_result['result'])
 
                 # Human-like delay
                 delay = self.stealth.random_delay(*self.human_delay)
@@ -130,7 +130,7 @@ class BrowserAgent:
                 if action["action"] == "done":
                     result = exec_result.get("result", action.get("params", {}).get("result", "Task completed."))
                     if self.verbose:
-                        logger.info("✅ Task complete: %s", result)
+                        logger.info("Task complete: %s", result)
                     break
 
             # Save session
@@ -218,7 +218,7 @@ Respond with the next action in JSON format."""
 
         if response:
             if self.verbose:
-                logger.info("🤖 LLM Response: %s...", response[:200])
+                logger.info("LLM Response: %s...", response[:200])
             return ActionParser.parse(response)
 
         return None

@@ -20,9 +20,9 @@ async def main():
     result = await agent.run("Go to books.toscrape.com and tell me the title of the first book")
 
     if result["success"]:
-        print(f"\n✅ Result: {result['result']}")
+        print(f"\nResult: {result['result']}")
     else:
-        print(f"\n❌ Error: {result.get('error')}")
+        print(f"\nError: {result.get('error')}")
     print(f"Steps: {result['steps']}")
 
 

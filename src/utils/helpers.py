@@ -57,7 +57,7 @@ def format_page_state(page_state: dict) -> str:
 
     # Stuck warning
     if page_state.get("stuck"):
-        lines.append("⚠️ WARNING: You appear to be stuck. Try a different approach (e.g., navigate to a different URL).")
+        lines.append("WARNING: You appear to be stuck. Try a different approach (e.g., navigate to a different URL).")
         lines.append("")
 
     return "\n".join(lines)

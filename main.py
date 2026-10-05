@@ -92,10 +92,10 @@ async def run_single_task(goal: str, args, headless: bool, screenshot_dir: str):
 
     logger.info("─" * 60)
     if result["success"]:
-        logger.info("✅ Success: %s", result['result'])
+        logger.info("Success: %s", result['result'])
     else:
-        logger.info("❌ Failed: %s", result.get('error', 'Unknown error'))
-    logger.info("📊 Steps: %s", result['steps'])
+        logger.info("Failed: %s", result.get('error', 'Unknown error'))
+    logger.info("Steps: %s", result['steps'])
     logger.info("─" * 60)
 
     return result
